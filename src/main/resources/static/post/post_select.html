@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="post">
+        <h1 id="title"></h1>
+        <div id="content"></div>
+    </div>
+
+</body>
+    <script>
+
+        window.onload = function() {
+            // URL에서 쿼리 매개변수 추출
+            const urlSearchParams = new URLSearchParams(window.location.search);
+            const postNo = urlSearchParams.get('POST_NO');
+
+            // 쿼리 매개변수에 POST_NO가 있을 경우에만 sendPostRequest 함수 호출
+            if (postNo) {
+                // sendPostRequest 함수 호출
+                sendPostRequest(postNo);
+            }
+        };
+
+        function sendPostRequest(POST_NO) {
+        // 요청을 보낼 엔드포인트 URL
+        const url = 'post/single_select_post';
+        
+        alert(POST_NO);
+        // POST 요청에 필요한 데이터
+        const data = {
+            "POST_NO" : POST_NO
+        };
+
+        console.log(data);
+        console.log(data);
+        // Fetch API를 사용한 POST 요청
+        fetch(url, {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json' // JSON 형식으로 데이터를 전송할 것이므로 Content-Type을 지정합니다.
+            },
+            body: JSON.stringify(data) // 데이터를 JSON 문자열로 변환하여 body에 포함시킵니다.
+        })
+        .then(response => {
+            if (!response.ok) {
+            throw new Error('Network response was not ok');
+            }
+            return response.json(); // 서버로부터의 응답을 JSON 형식으로 파싱합니다.
+        })
+        .then(data => {
+            console.log('Post 요청이 성공했습니다:', data);
+            
+            // 성공적으로 요청이 처리되었을 때 실행할 코드를 작성합니다.
+            var titleElement = document.getElementById("title");
+            titleElement.textContent = data.title;
+
+            // content 요소를 가져오고 내용을 설정합니다.
+            var contentElement = document.getElementById("content");
+            contentElement.innerHTML = data.content;
+            //contentElement.textContent = data.content;
+            
+        })
+        .catch(error => {
+            console.error('Post 요청이 실패했습니다:', data);
+            // 요청이 실패했을 때 실행할 코드를 작성합니다.
+        });
+        }
+
+
+
+    </script>
+
+</html>
