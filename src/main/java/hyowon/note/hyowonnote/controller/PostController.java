@@ -10,9 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
 import hyowon.note.hyowonnote.service.PostService;
 import hyowon.note.hyowonnote.vo.PostVo;
@@ -26,10 +24,37 @@ public class PostController {
     @Autowired
     private PostService postService;
 
+    @PostMapping("/post_list")
+    public ResponseEntity<List<PostVo>> select_post(@RequestBody Map<String, Object> requestBody) 
+    {
+        
+        System.out.println(requestBody);
+
+        int page_no = 1;
+
+        try {
+            page_no = Integer.parseInt(requestBody.get("PAGE_NO").toString());
+        } catch (Exception e) {
+            page_no = 1;
+        }
+
+        
+        int limit  = 10; // 한 페이지에 출력할 데이터의 양
+        int offset = limit * ( page_no - 1 );    // LIMIT * (페이지 번호 - 1)
+        List<PostVo> listPostVo = postService.select_list(limit, offset);
+
+        System.out.println(listPostVo);
+
+
+        return new ResponseEntity<>(listPostVo, HttpStatus.OK);
+    }
+    
+
     
     @PostMapping("/single_select_post")
     @ResponseBody
-    public ResponseEntity<PostVo> select_single_post(@RequestBody Map<String, Object> requestBody) {
+    public ResponseEntity<PostVo> select_single_post(@RequestBody Map<String, Object> requestBody) 
+    {
         // 받은 게시글 데이터를 처리하고 필요에 따라 데이터베이스에 저장하는 로직을 추가할 수 있습니다.
 
         String postNoString = (String) requestBody.get("POST_NO");
@@ -50,7 +75,8 @@ public class PostController {
     }
 
     @GetMapping("/insert")
-    public String getMethodName() {
+    public String getMethodName()
+    {
         System.out.println("post_insert");
         return "post_insert.html";
     }

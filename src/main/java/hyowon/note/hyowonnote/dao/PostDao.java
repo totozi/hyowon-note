@@ -10,5 +10,7 @@ import hyowon.note.hyowonnote.vo.PostVo;
 public interface  PostDao {
 
     PostVo select_single_post(PostVo postVo);
+
+    List<PostVo> select_list(int limit, int offset);
     
 }

@@ -4,19 +4,36 @@
         
 
 <mapper namespace="hyowon.note.hyowonnote.dao.PostDao">
+
+	<select id="select_list" resultType="PostVo">
+           SELECT POST_NO             AS POST_NO
+                , AUTHOR              AS AUTHOR
+                , VIEW_CNT            AS VIEW_CNT
+                , CATEGORY_NO         AS CATEGORY_NO
+                , TITLE               AS TITLE
+                , STATUS              AS STATUS
+                , FIRST_REG_DATETIME  AS FIRST_REG_DATETIME
+                , LAST_UPD_DATETIME   AS LAST_UPD_DATETIME
+            FROM POST
+           ORDER BY POST_NO DESC
+           LIMIT #{limit}
+          OFFSET #{offset};
+	</select>
+
+
 	<select id="select_single_post" resultType="PostVo" parameterType="PostVo">
-		SELECT POST_NO             AS POST_NO
-             , AUTHOR              AS AUTHOR
-             , VIEW_CNT            AS VIEW_CNT
-             , CATEGORY_NO         AS CATEGORY_NO
-             , TITLE               AS TITLE
-             , CONTENT             AS CONTENT
-             , STATUS              AS STATUS
-             , FIRST_REG_DATETIME  AS FIRST_REG_DATETIME
-             , LAST_UPD_DATETIME   AS LAST_UPD_DATETIME
-             , FIRST_REG_IP        AS FIRST_REG_IP
-             , LAST_UPD_IP         AS LAST_UPD_IP
-          FROM POST
-         WHERE POST_NO = #{POST_NO}
+           SELECT POST_NO             AS POST_NO
+                , AUTHOR              AS AUTHOR
+                , VIEW_CNT            AS VIEW_CNT
+                , CATEGORY_NO         AS CATEGORY_NO
+                , TITLE               AS TITLE
+                , CONTENT             AS CONTENT
+                , STATUS              AS STATUS
+                , FIRST_REG_DATETIME  AS FIRST_REG_DATETIME
+                , LAST_UPD_DATETIME   AS LAST_UPD_DATETIME
+                , FIRST_REG_IP        AS FIRST_REG_IP
+                , LAST_UPD_IP         AS LAST_UPD_IP
+             FROM POST
+            WHERE POST_NO = #{POST_NO}
 	</select>
 </mapper>

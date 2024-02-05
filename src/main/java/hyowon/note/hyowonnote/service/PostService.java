@@ -15,7 +15,16 @@ public class PostService {
     private PostDao postDao;
 
 
-        public PostVo select_single_list(PostVo postVo){
+        public PostVo select_single_list(PostVo postVo)
+        {
             return postDao.select_single_post(postVo);
+
+        }
+
+
+        public List<PostVo> select_list(int limit, int offset)
+        {
+            return postDao.select_list(limit, offset);
+        
         }
 }

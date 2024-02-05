@@ -13,5 +13,66 @@
     <a href="test?POST_NO=3">test3</a>
 
     <a href="post/insert">insert</a>
+
+
 </body>
+<script>
+        window.onload = function() {
+
+            sendPostRequest();
+            
+        };
+
+        function sendPostRequest(PAGE_NO) {
+        // 요청을 보낼 엔드포인트 URL
+        const url = '/post/post_list';
+        
+        // 입력값 없으면 1 삽입
+        if(PAGE_NO === null || (typeof PAGE_NO === 'number' && !isNaN(PAGE_NO)) || typeof value === 'undefined' )
+        {
+            PAGE_NO = 1;
+        }
+
+        // POST 요청에 필요한 데이터
+        const data = {
+            "PAGE_NO" : PAGE_NO
+        };
+
+        console.log(data);
+        console.log(data);
+        // Fetch API를 사용한 POST 요청
+        fetch(url, {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json' // JSON 형식으로 데이터를 전송할 것이므로 Content-Type을 지정합니다.
+            },
+            body: JSON.stringify(data) // 데이터를 JSON 문자열로 변환하여 body에 포함시킵니다.
+        })
+        .then(response => {
+            if (!response.ok) {
+            throw new Error('Network response was not ok');
+            }
+            return response.json(); // 서버로부터의 응답을 JSON 형식으로 파싱합니다.
+        })
+        .then(data => {
+            console.log('Post 요청이 성공했습니다:', data);
+            
+            // 성공적으로 요청이 처리되었을 때 실행할 코드를 작성합니다.
+            var titleElement = document.getElementById("title");
+            titleElement.textContent = data.title;
+
+            // content 요소를 가져오고 내용을 설정합니다.
+            var contentElement = document.getElementById("content");
+            contentElement.innerHTML = data.content;
+            //contentElement.textContent = data.content;
+            
+        })
+        .catch(error => {
+            console.error('Post 요청이 실패했습니다:', data);
+            // 요청이 실패했을 때 실행할 코드를 작성합니다.
+        });
+        }
+
+
+</script>
 </html>
